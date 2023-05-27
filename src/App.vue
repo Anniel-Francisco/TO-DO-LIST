@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHatWizard, faPerson, faPersonWalking, faCircleCheck, faTrash, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
