@@ -102,7 +102,7 @@ const empty = () =>{
           <font-awesome-icon :icon="['fas', 'person-walking']" size="2xl" style="color: #475569;" />
           <h3 class="text-xl ml-1 font-bold uppercase text-slate-600">Ejercicios</h3>
           
-          <button type="button" @click="empty" class="absolute right-0 bg-slate-600 uppercase text-white p-2 transition-all hover:bg-slate-500 font-medium">empty</button>
+          <button type="button" @click="empty" class="absolute right-0 bg-slate-600 uppercase text-white p-2 active:scale-95 transition-all hover:bg-slate-500 font-medium">empty</button>
         
       </div>
       <ul class="flex-col min-w-full">
