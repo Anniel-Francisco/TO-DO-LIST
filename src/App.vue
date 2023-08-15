@@ -1,5 +1,5 @@
 <script setup>
-import {onMounted, ref} from 'vue';
+import {ref} from 'vue';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faHatWizard, faPerson, faPersonWalking, faCircleCheck, faTrash, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
@@ -9,7 +9,7 @@ const rutina = ref([]);
 
 let routine = {
   exercise: "",
-  state:false,
+  state:"En proceso",
 };
 
 const addExercise = ()=>{
@@ -32,7 +32,7 @@ const changeStateTrue = (id) =>{
 
    rutina.value.forEach(exercise => {
      if(id === exercise.id){
-      exercise.state = true;
+      exercise.state = "Completa";
       localStorage.setItem('Ejercicios', JSON.stringify(rutina.value));
 
       return;
@@ -45,7 +45,7 @@ const changeStateFalse = (id) =>{
 
 rutina.value.forEach(exercise => {
   if(id === exercise.id){
-   exercise.state = false;
+   exercise.state = "En proceso";
    localStorage.setItem('Ejercicios', JSON.stringify(rutina.value));
    return;
  }
@@ -64,6 +64,14 @@ const deleteExercise = (id) =>{
   }
 };
 
+const empty = () =>{
+  let resp = window.confirm("Se eliminara toda la rutina, ¿seguro/a de borrar los datos?")
+  if(resp){
+    rutina.value = [];
+    localStorage.setItem('Ejercicios', JSON.stringify(rutina.value));
+    return;
+  }
+}
 
   rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
 
@@ -85,19 +93,23 @@ const deleteExercise = (id) =>{
     <div class="mt-2 flex items-center relative">
 
       <input @keyup.enter="addExercise" class="w-screen p-2 bg-slate-300 outline-none focus:shadow-gray-400 focus:shadow-lg" type="text" v-model="routine.exercise">
-      <button @click="addExercise" class="absolute right-0 bg-slate-600 text-white p-2 transition-all hover:bg-slate-500 font-medium">ADD</button>
+      <button type="button" @click="addExercise" class="absolute right-0 bg-slate-600 text-white p-2 transition-all hover:bg-slate-500 font-medium">ADD</button>
       
       </div>
-    <div class="flex h-50 items-center relative mt-5">
-      <div class="flex absolute top-0">
-        <font-awesome-icon :icon="['fas', 'person-walking']" size="2xl" style="color: #475569;" />
-        <h3 class="text-xl ml-1 font-bold uppercase text-slate-600">Ejercicios</h3>
+    <div class="flex flex-col h-50 mt-6">
+      <div class="flex relative items-center">
+        
+          <font-awesome-icon :icon="['fas', 'person-walking']" size="2xl" style="color: #475569;" />
+          <h3 class="text-xl ml-1 font-bold uppercase text-slate-600">Ejercicios</h3>
+          
+          <button type="button" @click="empty" class="absolute right-0 bg-slate-600 uppercase text-white p-2 active:scale-95 transition-all hover:bg-slate-500 font-medium">empty</button>
+        
       </div>
-      <ul class="mt-10 flex-col min-w-full">
-        <li class="flex items-center mt-4 transition-all hover:scale-95 hover:shadow-lg p-5 min-w-full justify-between h-14" :class="routine.state === true ? 'bg-green-300': 'bg-red-300'" v-for="(routine, i) of rutina" :key="i">
+      <ul class="flex-col min-w-full">
+        <li class="flex items-center mt-4 transition-all hover:scale-95 hover:shadow-lg p-5 min-w-full justify-between h-14" :class="routine.state === 'Completa' ? 'bg-green-300': 'bg-red-300'" v-for="(routine, i) of rutina" :key="i">
          
           <div>
-            <span class="mt-4">
+            <span>
                 {{ routine.exercise }}  - {{ routine.state }}
                 </span>
                 
