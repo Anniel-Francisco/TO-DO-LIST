@@ -1,6 +1,8 @@
 import "./global.css";
 import { createApp } from "vue";
 import App from "./App.vue";
+import router from "./router/routes";
+
 import { library } from "@fortawesome/fontawesome-svg-core";
 import {
   faHatWizard,
@@ -20,7 +22,6 @@ library.add(
   faCircleXmark
 );
 const app = createApp(App);
-
+app.use(router);
 app.component("font-awesome-icon", FontAwesomeIcon);
-
 app.mount("#app");

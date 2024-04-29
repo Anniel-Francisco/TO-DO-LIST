@@ -123,7 +123,7 @@ rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
       </div>
       <ul class="flex-col min-w-full">
         <li
-          class="flex items-center mt-4 transition-all hover:scale-95 hover:shadow-lg p-5 min-w-full justify-between h-14"
+          class="flex items-center mt-4 transition-all hover:shadow-lg p-5 min-w-full justify-between h-14"
           :class="routine.state === 'Completa' ? 'bg-green-300' : 'bg-red-300'"
           v-for="(routine, i) of rutina"
           :key="i"
