@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from "vue";
+//
+import Item from "../components/Item.vue";
 
 const rutina = ref([]);
 
 let routine = {
   exercise: "",
-  state: "En proceso",
+  state: "In progress",
 };
 
 const addExercise = () => {
@@ -13,11 +15,11 @@ const addExercise = () => {
     window.alert("Empty field!");
     return;
   } else {
-    let res = window.confirm("¿Seguro/a de ingresar esta rutina?");
+    let res = window.confirm("¿Are you sure to enter this routine?");
     if (res) {
       routine.id = Date.now();
       rutina.value.push({ ...routine });
-      localStorage.setItem("Ejercicios", JSON.stringify(rutina.value));
+      localStorage.setItem("Exercises", JSON.stringify(rutina.value));
       routine.exercise = "";
       return;
     }
@@ -27,8 +29,8 @@ const addExercise = () => {
 const changeStateTrue = (id) => {
   rutina.value.forEach((exercise) => {
     if (id === exercise.id) {
-      exercise.state = "Completa";
-      localStorage.setItem("Ejercicios", JSON.stringify(rutina.value));
+      exercise.state = "Done";
+      localStorage.setItem("Exercises", JSON.stringify(rutina.value));
 
       return;
     }
@@ -38,8 +40,8 @@ const changeStateTrue = (id) => {
 const changeStateFalse = (id) => {
   rutina.value.forEach((exercise) => {
     if (id === exercise.id) {
-      exercise.state = "En proceso";
-      localStorage.setItem("Ejercicios", JSON.stringify(rutina.value));
+      exercise.state = "In progress";
+      localStorage.setItem("Exercises", JSON.stringify(rutina.value));
       return;
     }
   });
@@ -47,10 +49,10 @@ const changeStateFalse = (id) => {
 
 const deleteExercise = (id) => {
   let indexExercise = rutina.value.findIndex((routine) => routine.id === id);
-  let resp = window.confirm("¿Seguro/a de eliminar?");
+  let resp = window.confirm("¿Are you sure to delete?");
   if (resp) {
     rutina.value.splice(indexExercise, 1);
-    localStorage.setItem("Ejercicios", JSON.stringify(rutina.value));
+    localStorage.setItem("Exercises", JSON.stringify(rutina.value));
 
     return;
   }
@@ -62,16 +64,17 @@ const empty = () => {
   );
   if (resp) {
     rutina.value = [];
-    localStorage.setItem("Ejercicios", JSON.stringify(rutina.value));
+    localStorage.setItem("Exercises", JSON.stringify(rutina.value));
     return;
   }
 };
 
-rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
+rutina.value = JSON.parse(localStorage.getItem("Exercises")) || [];
 </script>
 
 <template>
   <div class="p-5 min-h-screen bg-gray-100">
+    <!-- HEAD -->
     <div class="bg-slate-600 flex items-center justify-between p-6">
       <div class="flex items-center">
         <h1 class="text-2xl text-white font-semibold">MY GYM ROUTINE</h1>
@@ -83,10 +86,9 @@ rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
           style="color: #fff"
         />
       </div>
-      <div>
-        <h2 class="text-2xl text-white font-semibold">#AFRJ</h2>
-      </div>
+      <span class="text-2xl text-white font-semibold">#AFRJ</span>
     </div>
+    <!-- Add -->
     <div class="mt-2 flex items-center relative">
       <input
         @keyup.enter="addExercise"
@@ -102,6 +104,7 @@ rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
         ADD
       </button>
     </div>
+    <!-- EXERCISES -->
     <div class="flex flex-col h-50 mt-6">
       <div class="flex relative items-center">
         <font-awesome-icon
@@ -121,16 +124,14 @@ rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
           empty
         </button>
       </div>
-      <ul class="flex-col min-w-full">
-        <li
-          class="flex items-center mt-4 transition-all hover:shadow-lg p-5 min-w-full justify-between h-14"
-          :class="routine.state === 'Completa' ? 'bg-green-300' : 'bg-red-300'"
+      <!-- EXERCISES LIST -->
+      <div class="flex-col min-w-full">
+        <Item
           v-for="(routine, i) of rutina"
           :key="i"
+          :exercise="routine.exercise"
+          :state="routine.state"
         >
-          <div>
-            <span> {{ routine.exercise }} - {{ routine.state }} </span>
-          </div>
           <div>
             <font-awesome-icon
               @click="changeStateTrue(routine.id)"
@@ -154,8 +155,8 @@ rutina.value = JSON.parse(localStorage.getItem("Ejercicios")) || [];
               style="color: #475569"
             />
           </div>
-        </li>
-      </ul>
+        </Item>
+      </div>
     </div>
   </div>
 </template>
