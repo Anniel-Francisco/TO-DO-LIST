@@ -88,7 +88,7 @@ rutina.value = JSON.parse(localStorage.getItem("Exercises")) || [];
       </div>
       <span class="text-2xl text-white font-semibold">#AFRJ</span>
     </div>
-    <!-- Add -->
+    <!-- ADD -->
     <div class="mt-2 flex items-center relative">
       <input
         @keyup.enter="addExercise"
