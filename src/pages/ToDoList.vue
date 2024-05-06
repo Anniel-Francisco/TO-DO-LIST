@@ -73,7 +73,7 @@ rutina.value = JSON.parse(localStorage.getItem("Exercises")) || [];
 </script>
 
 <template>
-  <div class="p-5 min-h-screen bg-gray-100">
+  <div class="md:p-5 max-md:p-2 min-h-screen bg-gray-100">
     <!-- HEAD -->
     <div class="bg-slate-600 flex items-center justify-between p-6">
       <div class="flex items-center">
